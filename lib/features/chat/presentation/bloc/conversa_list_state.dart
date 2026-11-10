@@ -1,13 +1,15 @@
 
 
-import '../pages/conversa_list_page.dart';
+import 'package:flutter_application_1/features/chat/domain/entities/conversa.dart';
+
+
 
 sealed class ConversaListState {}
 
 class ConversaListLoading extends ConversaListState{}
 
 class ConversaListSuccess extends ConversaListState{
-  final List <ConversaListPage> conversas;
+  final List <Conversa> conversas;
   ConversaListSuccess({required this.conversas});
 }
 

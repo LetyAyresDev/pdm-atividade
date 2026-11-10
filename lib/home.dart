@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/chat/presentation/pages/conversa_list_page.dart';
+import 'package:flutter_application_1/features/store/presentation/pages/product_list_page.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -37,6 +38,19 @@ class MyHomePage extends StatelessWidget {
                   ),
                 ),
               ),
+              Card(
+                elevation: 0.5,
+                child: ListTile(
+                  title: Text('Produtos'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.arrow_circle_right), onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductListPage(),
+                  ));
+                  }, ),
+                ),
+
+              )
+
             ],
           ),
         ],

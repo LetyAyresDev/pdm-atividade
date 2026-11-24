@@ -1,32 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/features/store/domain/entities/product.dart';
+import 'package:flutter_application_1/features/store/presentation/bloc/product_list_bloc.dart';
+import 'package:flutter_application_1/features/store/presentation/bloc/product_list_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          ListTile(
-            
-            // leading: Image.network(
-            //   "https://acdn-us.mitiendanube.com/stores/001/248/765/products/garrafa-pet-500-ml-2-0736045704aa58038c17725132519732-1024-1024.webp",
-            //   width: 80,
-            //   height: 80,
-            //   fit: BoxFit.cover,
-            // ),
-            title: Text('Nescau'),
-            subtitle: Text('Achocolatado '),
+    return BlocProvider(
+      create: (BuildContext context) => ProductListBloc(),
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Catálogo de Produtos"),
+        ),
+        body: BlocBuilder<ProductListBloc, ProductListState>(
+          builder: (context, state) {
 
-            // titleTextStyle: TextStyle(
-            //   color: const Color.fromARGB(179, 0, 0, 0),
-            //   fontSize: 25.0,
-            //   fontFamily: 'Arial'
-            // ),
-          ),
-        ],
+            if (state is ProductListSucess){
+              return ListView.builder
+              (itemCount: state.produtos.length,
+              itemBuilder: (BuildContext context, int i){
+                Product produto = state.produtos[i];
+                return ListTile(
+                  leading: Image.network(
+                    produto.url,
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text("${produto.nome}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("${produto.categoria}"),
+                      Row(
+                        children: [
+                          Text("RS ${produto.preco}"),
+                          SizedBox(width: 10),
+                          Text("${produto.avaliacao}"),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }
+              );
+            }
+            if (state is ProductListFailure){
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: Text("(${state.msg})", style: TextStyle(fontSize: 16))
+                  )],
+              );
+            }
+
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(child: CircularProgressIndicator()
+                )],
+            );
+          },
+        ),
       ),
     );
   }

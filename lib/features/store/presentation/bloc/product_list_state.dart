@@ -11,5 +11,5 @@ class ProductListSucess extends ProductListState{
 
 class ProductListFailure extends ProductListState{
   final String msg;
-  ProductListFailure({required this.msg })
+  ProductListFailure({required this.msg });
 }
